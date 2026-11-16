@@ -1,8 +1,11 @@
 # Recovering a New AMD Ryzen 9000 Desktop Build Stuck on CPU and DRAM Debug Lights
 
 **Author:** Dr. Solomon Seifu
+
 **Category:** Hardware troubleshooting, firmware recovery, and system bring-up
+
 **Platform:** AMD Ryzen 5 9600X | ASRock B650M Pro RS | DDR5 memory (two modules) | Integrated graphics
+
 **Outcome:** The system passed its power-on self-test (POST) after a verified BIOS Flashback update and a memory slot correction.
 
 ---
@@ -45,7 +48,7 @@ This write-up documents the full process: the symptoms, the reasoning behind eac
 | Cooling | AMD stock cooler | Shipped with the CPU |
 | Power supply | ATX power supply with 24-pin and 8-pin CPU connectors | Rear rocker switch marked I (on) and O (off) |
 
-**Confirming the exact board model.** ASRock sells both a **B650M Pro RS** and a **B650M Pro RS WiFi**, and they use different BIOS files. The model was confirmed from the name printed on the board next to the memory slots, which reads **B650M PRO RS** with no "WiFi." The rear antenna holes were also empty, with no gold threaded connectors, which is consistent with the non-WiFi model.
+**Confirming the exact board model.** ASRock sells both a B650M Pro RS and a B650M Pro RS WiFi, and they use different BIOS files. The model was confirmed from the name printed on the board next to the memory slots, which reads B650M PRO RS with no "WiFi." The rear antenna holes were also empty, with no gold threaded connectors, which is consistent with the non-WiFi model.
 
 ---
 
@@ -54,8 +57,8 @@ This write-up documents the full process: the symptoms, the reasoning behind eac
 On power-on:
 
 - The fans spun, so the board was receiving power.
-- The screen showed **"No Signal."**
-- Two of the four motherboard debug LEDs stayed lit: **CPU** and **DRAM**.
+- The screen showed "No Signal."
+- Two of the four motherboard debug LEDs stayed lit: CPU and DRAM.
 - The system never reached the ASRock logo screen.
 
 ![Debug LED area with the system powered off](images/01-debug-leds-unpowered.jpg)
@@ -87,18 +90,18 @@ Real troubleshooting rarely goes in a straight line. This is the actual order of
 | Step | What happened | What it told us |
 | --- | --- | --- |
 | 1 | Pressed the power button and nothing happened at all | The power supply was not plugged into the wall. A desktop has no battery. |
-| 2 | Plugged in the power cord and set the power supply switch to **I** | The board powered on and the fans spun. |
+| 2 | Plugged in the power cord and set the power supply switch to I | The board powered on and the fans spun. |
 | 3 | Connected HDMI to a screen, which showed "No Signal" | The screen worked, but the computer was not sending a picture. |
-| 4 | Considered using a laptop as the screen | Not possible. A laptop HDMI port is **output only**. It cannot receive a picture without a USB capture card. |
-| 5 | Photographed the debug LEDs before and after power-on | **CPU and DRAM** stayed lit, so startup was failing at the first stage. |
+| 4 | Considered using a laptop as the screen | Not possible. A laptop HDMI port is output only. It cannot receive a picture without a USB capture card. |
+| 5 | Photographed the debug LEDs before and after power-on | CPU and DRAM stayed lit, so startup was failing at the first stage. |
 | 6 | Waited 10 minutes for possible first-start memory training | No change. The lights stayed on. |
 | 7 | Identified the most likely cause as an outdated BIOS | The Ryzen 9000 series is newer than many B650 boards, so early BIOS versions may not support it. |
 | 8 | Downloaded BIOS 4.60 and verified it with SHA256 | The file was genuine and complete. |
 | 9 | Ran BIOS Flashback | The Flashback LED blinked for about 5 to 6 minutes, then turned off. The update succeeded. |
 | 10 | Powered on again, but CPU and DRAM still stayed lit | A second problem existed. |
 | 11 | A glare-filled photo made the lights look like VGA and BOOT | A misreading. Checking the board directly confirmed they were still CPU and DRAM. |
-| 12 | Opened the case and checked the memory slots | The modules were in slots **A1 and B1** (first and third), which is incorrect. |
-| 13 | Moved the memory to slots **A2 and B2** (second and fourth) | All debug LEDs turned off, and the fans kept running. **POST passed.** |
+| 12 | Opened the case and checked the memory slots | The modules were in slots A1 and B1 (first and third), which is incorrect. |
+| 13 | Moved the memory to slots A2 and B2 (second and fourth) | All debug LEDs turned off, and the fans kept running. POST passed. |
 
 ---
 
@@ -116,8 +119,8 @@ The four debug LEDs follow the order of POST. The light that stays on points to 
 
 **Reasoning applied to this case:**
 
-1. With **CPU and DRAM** both lit, the board could not get past processor and memory initialization.
-2. On a **B650 board with a Ryzen 9000 CPU**, the most common reason for this exact pattern is a BIOS that is too old to support the CPU.
+1. With CPU and DRAM both lit, the board could not get past processor and memory initialization.
+2. On a B650 board with a Ryzen 9000 CPU, the most common reason for this exact pattern is a BIOS that is too old to support the CPU.
 3. The second most likely cause was the memory configuration, so it was checked next.
 4. Possible causes that were checked and ruled out along the way include the power connections and the display setup.
 
@@ -133,14 +136,14 @@ A normal BIOS update is done from inside the BIOS menu, which requires a working
 
 1. On a separate working computer, I opened ASRock's official BIOS page for the B650M Pro RS:
    `https://www.asrock.com/mb/AMD/B650M%20Pro%20RS/index.asp#BIOS`
-2. I confirmed the page was for the **B650M Pro RS**, not the WiFi version.
+2. I confirmed the page was for the B650M Pro RS, not the WiFi version.
 3. I downloaded the newest version at the top of the list:
 
 | Version | Date | Size | Description |
 | --- | --- | --- | --- |
 | 4.60 | 2026/10/19 | 17.48 MB | Update AGESA to ComboAM5 1.3.0.1d |
 
-The page lists two update methods, **Instant Flash** and **Flashback**. They use the same file. Instant Flash runs from inside the BIOS menu, so Flashback was the only option here.
+The page lists two update methods, Instant Flash and Flashback. They use the same file. Instant Flash runs from inside the BIOS menu, so Flashback was the only option here.
 
 > **Security note:** Only download firmware from the manufacturer's official site. A wrong or tampered BIOS file can permanently damage a motherboard.
 
@@ -148,13 +151,13 @@ The page lists two update methods, **Instant Flash** and **Flashback**. They use
 
 ASRock publishes a SHA256 hash for every BIOS download. I checked the downloaded file against it in PowerShell.
 
-First, I opened PowerShell in the extracted folder (Shift + right-click inside the folder, then **Open in Terminal**) and hashed the extracted file:
+First, I opened PowerShell in the extracted folder (Shift + right-click inside the folder, then Open in Terminal) and hashed the extracted file:
 
 ```powershell
 Get-FileHash *
 ```
 
-The result did **not** match ASRock's hash. This was expected, because ASRock publishes the hash of the **ZIP archive**, not the file inside it. So I hashed the ZIP file in the parent Downloads folder:
+The result did not match ASRock's hash. This was expected, because ASRock publishes the hash of the ZIP archive, not the file inside it. So I hashed the ZIP file in the parent Downloads folder:
 
 ```powershell
 Get-FileHash ..\*.zip
@@ -172,7 +175,7 @@ The two hashes match exactly. Letter case does not matter in a hash. This confir
 ### Step 7.3: Prepare the USB drive
 
 1. I extracted the ZIP file. It contained one file: `B65MPRS4.60.ROM`.
-2. I formatted a USB flash drive as **FAT32**. In File Explorer: right-click the drive, choose **Format**, set **File system** to **FAT32**, and click **Start**. Drives of 32 GB or smaller work best.
+2. I formatted a USB flash drive as FAT32. In File Explorer: right-click the drive, choose **Format**, set **File system** to **FAT32**, and click **Start**. Drives of 32 GB or smaller work best.
 3. I turned on file name extensions in File Explorer (**View > Show > File name extensions**).
 4. I copied `B65MPRS4.60.ROM` to the **root** of the USB drive, not inside a folder.
 5. I renamed it to exactly **`CREATIVE.ROM`**, and checked that it did not become `CREATIVE.ROM.ROM`.
@@ -183,13 +186,13 @@ The two hashes match exactly. Letter case does not matter in a hash. This confir
 ![Rear I/O panel with the BIOS FLBK button](images/03-rear-io-bios-flashback.jpg)
 *Figure 3. The rear I/O panel. The round **BIOS FLBK** button is at the top left. The Flashback USB port is the black port with a thin gray outline, on the left side of the second row of black USB ports.*
 
-1. The computer stayed **turned off**. The case power button was not pressed at any point.
-2. The power cord stayed plugged in, and the power supply switch stayed on **I**. Flashback needs standby power to work.
-3. I plugged the USB drive into the **outlined Flashback USB port**.
-4. I pressed and held the **BIOS FLBK** button for about **3 seconds**, then released it.
-5. The Flashback LED began **blinking**.
-6. I waited about **5 to 6 minutes** without touching anything.
-7. The LED **stopped blinking and turned off**, which means the update finished.
+1. The computer stayed turned off. The case power button was not pressed at any point.
+2. The power cord stayed plugged in, and the power supply switch stayed on I. Flashback needs standby power to work.
+3. I plugged the USB drive into the outlined Flashback USB port.
+4. I pressed and held the BIOS FLBK button for about 3 seconds, then released it.
+5. The Flashback LED began blinking.
+6. I waited about 5 to 6 minutes without touching anything.
+7. The LED stopped blinking and turned off, which means the update finished.
 
 | Flashback LED behavior | Meaning |
 | --- | --- |
@@ -200,10 +203,10 @@ The two hashes match exactly. Letter case does not matter in a hash. This confir
 ### Step 7.5: Restart after the update
 
 1. Removed the USB drive.
-2. Switched the power supply to **O**, waited about 2 minutes, and switched it back to **I**.
+2. Switched the power supply to O, waited about 2 minutes, and switched it back to I.
 3. Pressed the case power button and waited.
 
-**Result:** The CPU and DRAM LEDs were **still lit**. The BIOS update was necessary, because BIOS 4.60 fully supports the Ryzen 9000 series, but it was not enough on its own. A second problem was still present.
+**Result:** The CPU and DRAM LEDs were still lit. The BIOS update was necessary, because BIOS 4.60 fully supports the Ryzen 9000 series, but it was not enough on its own. A second problem was still present.
 
 ---
 
@@ -216,38 +219,38 @@ With the power off and unplugged, I opened the case and checked the memory. The 
 | Slot position | Slot name | Before | After |
 | --- | --- | --- | --- |
 | 1st | A1 | Module installed | Empty |
-| 2nd | A2 | Empty | **Module installed** |
+| 2nd | A2 | Empty | Module installed |
 | 3rd | B1 | Module installed | Empty |
-| 4th | B2 | Empty | **Module installed** |
+| 4th | B2 | Empty | Module installed |
 
-The modules were in **A1 and B1**. ASRock's manual specifies **A2 and B2** for two modules.
+The modules were in A1 and B1. ASRock's manual specifies A2 and B2 for two modules.
 
 ![Board overview](images/04-board-overview.jpg)
 *Figure 4. The board with the AMD stock cooler in the center. The four DDR5 memory slots run vertically to the right of the cooler.*
 
 ### The fix
 
-1. Turned the power supply to **O** and unplugged the power cord.
+1. Turned the power supply to O and unplugged the power cord.
 2. Touched a metal part of the case to discharge static electricity.
 3. Pressed the clips at the ends of each slot to release the modules.
-4. Installed the modules in the **2nd and 4th slots** (A2 and B2), lining up the notch on each module with the notch in the slot.
+4. Installed the modules in the 2nd and 4th slots (A2 and B2), lining up the notch on each module with the notch in the slot.
 5. Pressed firmly on both ends of each module until both clips clicked shut. DDR5 modules need firm pressure.
-6. Plugged in the power, switched the power supply to **I**, and pressed the power button.
+6. Plugged in the power, switched the power supply to I, and pressed the power button.
 
 ![Memory installed in slots A2 and B2](images/05-memory-in-a2-b2.jpg)
 *Figure 5. The final configuration. Counting from the CPU (left), slot 1 is empty, slot 2 holds the black module, slot 3 is empty, and slot 4 holds the white module. The board name, B650M PRO RS, is printed vertically to the left of the slots.*
 
 ### Why slot placement matters
 
-On a dual-channel board, slots A1 and A2 share **channel A**, and slots B1 and B2 share **channel B**. Both A1 + B1 and A2 + B2 give dual-channel mode, so the channel split alone does not explain the problem. The difference is in how the board is wired.
+On a dual-channel board, slots A1 and A2 share channel A, and slots B1 and B2 share channel B. Both A1 + B1 and A2 + B2 give dual-channel mode, so the channel split alone does not explain the problem. The difference is in how the board is wired.
 
-- Most modern boards use a **daisy-chain** layout. Each channel's signal lines run from the CPU, pass slot 1, and **end at slot 2**.
-- A module in **slot 2** sits at the end of the line, so the signal arrives cleanly.
-- A module in **slot 1** leaves an empty slot after it. The unused section of wire acts like a dead end, and the signal **bounces back**, creating electrical noise called **signal reflection**.
-- DDR5 runs at very high speeds, so this noise can make **memory training fail**, which stops POST at the DRAM stage.
+- Most modern boards use a daisy-chain layout. Each channel's signal lines run from the CPU, pass slot 1, and end at slot 2.
+- A module in slot 2 sits at the end of the line, so the signal arrives cleanly.
+- A module in slot 1 leaves an empty slot after it. The unused section of wire acts like a dead end, and the signal bounces back, creating electrical noise called signal reflection.
+- DDR5 runs at very high speeds, so this noise can make memory training fail, which stops POST at the DRAM stage.
 - Manufacturers design and test their BIOS around the A2 + B2 layout, so it is the most reliable choice.
 
-**A simple analogy:** Shouting down a hallway reaches a listener at the far end clearly. If the listener stands halfway down with empty space behind them, the sound echoes off the far wall and becomes harder to hear.
+A simple analogy: Shouting down a hallway reaches a listener at the far end clearly. If the listener stands halfway down with empty space behind them, the sound echoes off the far wall and becomes harder to hear.
 
 ---
 
@@ -256,7 +259,7 @@ On a dual-channel board, slots A1 and A2 share **channel A**, and slots B1 and B
 After moving the memory to A2 and B2:
 
 - The fans spun normally.
-- **All four debug LEDs turned off.** This means the system passed every POST stage, including CPU, memory, display, and boot checks.
+- All four debug LEDs turned off. This means the system passed every POST stage, including CPU, memory, display, and boot checks.
 - The original problem was solved.
 
 ### Why it was likely a combination of two problems
@@ -273,7 +276,7 @@ Either problem alone could keep the CPU and DRAM LEDs lit. Fixing only one would
 ### Next steps for the build
 
 1. Connect a monitor to the motherboard HDMI port and confirm the ASRock logo appears.
-2. Press **F2** or **Delete** to open the BIOS and confirm the version is **4.60** and the total memory matches both modules.
+2. Press F2 or Delete to open the BIOS and confirm the version is 4.60 and the total memory matches both modules.
 3. Install Windows from a USB installer.
 4. Install chipset and other drivers from ASRock's support page.
 
@@ -308,14 +311,14 @@ Ruling things out is part of good troubleshooting.
 
 Use this list for any new AMD AM5 build that powers on but shows no display.
 
-- [ ] Power cord connected and power supply switch on **I**
+- [ ] Power cord connected and power supply switch on I
 - [ ] 24-pin motherboard power cable fully clicked in
 - [ ] 8-pin CPU power cable fully clicked in at the top-left of the board
-- [ ] Monitor connected to the **motherboard** video port when using integrated graphics
+- [ ] Monitor connected to the motherboard video port when using integrated graphics
 - [ ] Correct screen input selected
 - [ ] Waited at least 10 minutes on the first start for memory training
 - [ ] Noted which debug LED stays lit
-- [ ] Memory installed in **A2 and B2** (or **A2** only for one module)
+- [ ] Memory installed in A2 and B2 (or A2 only for one module)
 - [ ] Memory fully seated with both clips closed
 - [ ] BIOS updated to a version that supports the installed CPU
 - [ ] CMOS cleared after a BIOS update if problems continue
